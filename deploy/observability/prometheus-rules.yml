@@ -1,0 +1,23 @@
+groups:
+  - name: scheduler
+    rules:
+      - alert: SchedulerNoMaster
+        expr: sum(scheduler_leader_state) == 0
+        for: 30s
+        labels: { severity: critical }
+        annotations: { summary: "scheduler cluster has no master" }
+      - alert: SchedulerQueueBacklog
+        expr: scheduler_queue_depth > 10000
+        for: 5m
+        labels: { severity: warning }
+        annotations: { summary: "scheduler queue backlog is high" }
+      - alert: SchedulerTaskFailureRate
+        expr: rate(scheduler_tasks_failed_total[5m]) > 1
+        for: 5m
+        labels: { severity: warning }
+        annotations: { summary: "scheduler task failures exceed 1/s" }
+      - alert: SchedulerWorkerPoolEmpty
+        expr: scheduler_workers_online == 0
+        for: 2m
+        labels: { severity: critical }
+        annotations: { summary: "no workers are online" }

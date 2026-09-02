@@ -1,0 +1,11 @@
+{
+  "title": "Scheduler Control Plane",
+  "schemaVersion": 39,
+  "panels": [
+    {"type":"stat","title":"Queue Depth","targets":[{"expr":"scheduler_queue_depth"}]},
+    {"type":"stat","title":"Workers Online","targets":[{"expr":"scheduler_workers_online"}]},
+    {"type":"timeseries","title":"Task Throughput","targets":[{"expr":"rate(scheduler_tasks_assigned_total[5m])","legendFormat":"assigned"},{"expr":"rate(scheduler_tasks_succeeded_total[5m])","legendFormat":"succeeded"},{"expr":"rate(scheduler_tasks_failed_total[5m])","legendFormat":"failed"}]},
+    {"type":"timeseries","title":"Scheduling P99","targets":[{"expr":"histogram_quantile(0.99, sum(rate(scheduler_schedule_lag_seconds_bucket[5m])) by (le))"}]},
+    {"type":"timeseries","title":"HTTP P99","targets":[{"expr":"histogram_quantile(0.99, sum(rate(scheduler_http_request_duration_seconds_bucket[5m])) by (le))"}]}
+  ]
+}

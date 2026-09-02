@@ -1,0 +1,8 @@
+/web/node_modules/
+/web/dist/
+.env
+coverage*
+$coveragePath
+.runtime/
+web/node_modules/
+web/dist/
